@@ -1,0 +1,22 @@
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+excerpt_separator: <!--more-->
+
+# Setup
+title:               Fylux
+tagline:             'Things'
+description:         'Algorithms, Maths, and all.'
+url:                 'https://fylux.github.io'
+baseurl:             'https://fylux.github.io'
+paginate:            5
+
+# About/contact
+author:
+  name:              Alfonso L. Castaño
+  url:               https://github.com/fylux/
+  email:             alfonso.cama@hotmail.com
+
+# Custom vars
+version:             1.0.0
