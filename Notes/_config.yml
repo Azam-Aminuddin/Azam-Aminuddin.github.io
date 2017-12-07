@@ -8,8 +8,8 @@ excerpt_separator: <!--more-->
 title:               Fylux
 tagline:             'Things'
 description:         'Algorithms, Maths, and all.'
-url:                 'https://fylux.github.io'
-baseurl:             'https://fylux.github.io'
+url:                 'https://azam-aminuddin.github.io/Notes'
+baseurl:             'https://azam-aminuddin.github.io/Notes'
 paginate:            5
 
 # About/contact
