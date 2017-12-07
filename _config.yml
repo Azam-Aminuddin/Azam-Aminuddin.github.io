@@ -5,7 +5,7 @@ permalink:           pretty
 excerpt_separator: <!--more-->
 
 # Setup
-title:               Fylux
+title:               Azam
 tagline:             'Things'
 description:         'Algorithms, Maths, and all.'
 url:                 'https://azam-aminuddin.github.io'
@@ -14,9 +14,9 @@ paginate:            5
 
 # About/contact
 author:
-  name:              Alfonso L. Castaño
-  url:               https://github.com/fylux/
-  email:             alfonso.cama@hotmail.com
+  name:              Azam Aminuddin
+  url:               https://github.com/Azam-Aminuddin/
+  email:             azam_ami@yahoo.com
 
 # Custom vars
 version:             1.0.0
