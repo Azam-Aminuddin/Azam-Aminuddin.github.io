@@ -7,7 +7,7 @@ excerpt_separator: <!--more-->
 # Setup
 title:               Azam
 tagline:             'Things'
-description:         'Algorithms, Maths, and all.'
+description:         'Algorithms, Codes, and others.'
 url:                 'https://azam-aminuddin.github.io'
 baseurl:             'https://azam-aminuddin.github.io'
 paginate:            5
