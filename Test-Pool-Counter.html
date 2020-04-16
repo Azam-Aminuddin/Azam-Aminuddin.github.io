@@ -13074,6 +13074,13 @@ div#notebook {
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Is-the-test-pool-efficient-?">Is the test pool efficient ?<a class="anchor-link" href="#Is-the-test-pool-efficient-?">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -13081,6 +13088,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
     </div>
@@ -13106,7 +13114,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Pool_Sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span> <span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">POOL_SIZES</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 
 <span class="k">class</span> <span class="nc">TestCounter</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -13127,7 +13135,7 @@ div#notebook {
     <span class="k">return</span> <span class="n">positive</span>
 
 <span class="k">def</span> <span class="nf">DoTest</span><span class="p">(</span> <span class="n">pool_size_idx</span><span class="p">,</span> <span class="n">population_start</span><span class="p">,</span> <span class="n">population_end</span><span class="p">,</span> <span class="n">infected</span><span class="p">,</span> <span class="n">counter</span> <span class="p">):</span>
-    <span class="n">pool_size</span> <span class="o">=</span> <span class="n">Pool_Sizes</span><span class="p">[</span><span class="n">pool_size_idx</span><span class="p">]</span>
+    <span class="n">pool_size</span> <span class="o">=</span> <span class="n">POOL_SIZES</span><span class="p">[</span><span class="n">pool_size_idx</span><span class="p">]</span>
     <span class="c1">#print( &quot;%s Do Test(%d,%d) with Pool Size:&quot; % (&quot;   &quot; * pool_size_idx, population_start, population_end-1), pool_size )</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">population_start</span>
     <span class="n">end</span> <span class="o">=</span> <span class="n">population_start</span> <span class="o">+</span> <span class="n">pool_size</span>
@@ -13138,7 +13146,7 @@ div#notebook {
         <span class="n">result</span> <span class="o">=</span> <span class="n">DoTest_Pool</span><span class="p">(</span> <span class="n">infected</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
             <span class="c1">#print( &quot;%s start: %d, end: %d&quot; % (&quot;   &quot; * pool_size_idx, start, end-1), result )</span>
-            <span class="k">if</span> <span class="n">pool_size_idx</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">Pool_Sizes</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">pool_size_idx</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">POOL_SIZES</span><span class="p">):</span>
                 <span class="n">DoTest</span><span class="p">(</span> <span class="n">pool_size_idx</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">infected</span><span class="p">,</span> <span class="n">counter</span> <span class="p">)</span>
                 
         <span class="n">start</span> <span class="o">=</span> <span class="n">end</span>
@@ -13150,9 +13158,118 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Infected-Visualization">The Infected Visualization<a class="anchor-link" href="#The-Infected-Visualization">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">VizInfected</span><span class="p">(</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Pct_Infected</span> <span class="p">):</span>
+    <span class="n">Population_Count</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">Y</span>
+    <span class="n">Population</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span> <span class="nb">range</span><span class="p">(</span><span class="n">Population_Count</span><span class="p">))</span>
+    <span class="n">Infected</span> <span class="o">=</span> <span class="n">GenerateInfected</span><span class="p">(</span> <span class="n">Population</span><span class="p">,</span> <span class="n">Population_Count</span><span class="p">,</span> <span class="n">Pct_Infected</span> <span class="p">)</span>
+    
+    <span class="n">Z</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Infected</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Population</span><span class="p">]</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">Z</span> <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">pcolor</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">VizInfected</span><span class="p">(</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.01</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">VizInfected</span><span class="p">(</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.1</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Required-Test-Counter">The Required Test Counter<a class="anchor-link" href="#The-Required-Test-Counter">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">TestWrapper</span><span class="p">(</span> <span class="n">Population_Count</span><span class="p">,</span> <span class="n">Pct_Infected</span> <span class="p">):</span>
@@ -13185,7 +13302,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">TestWrapper_And_Stats</span><span class="p">(</span> <span class="mi">1000</span><span class="p">,</span> <span class="mf">0.01</span> <span class="p">)</span>
@@ -13207,8 +13324,8 @@ div#notebook {
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Population Count:  1000
 %Infected: 1%
-[170, 168, 170, 170, 170, 156, 170, 166, 170, 163]
-avg= 167.3 16.730%
+[170, 168, 170, 170, 168, 170, 170, 170, 170, 168]
+avg= 169.4 16.940%
 </pre>
 </div>
 </div>
@@ -13219,7 +13336,7 @@ avg= 167.3 16.730%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">TestWrapper_And_Stats</span><span class="p">(</span> <span class="mi">1000</span><span class="p">,</span> <span class="mf">0.05</span> <span class="p">)</span>
@@ -13241,8 +13358,8 @@ avg= 167.3 16.730%
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Population Count:  1000
 %Infected: 5%
-[407, 400, 414, 400, 391, 412, 400, 372, 402, 389]
-avg= 398.7 39.870%
+[407, 403, 398, 398, 407, 389, 395, 384, 371, 400]
+avg= 395.2 39.520%
 </pre>
 </div>
 </div>
@@ -13253,7 +13370,7 @@ avg= 398.7 39.870%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">TestWrapper_And_Stats</span><span class="p">(</span> <span class="mi">1000</span><span class="p">,</span> <span class="mf">0.10</span> <span class="p">)</span>
@@ -13275,8 +13392,8 @@ avg= 398.7 39.870%
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Population Count:  1000
 %Infected: 10%
-[605, 631, 607, 627, 638, 602, 643, 642, 636, 624]
-avg= 625.5 62.550%
+[623, 605, 622, 619, 600, 638, 624, 621, 605, 627]
+avg= 618.4 61.840%
 </pre>
 </div>
 </div>
@@ -13287,7 +13404,7 @@ avg= 625.5 62.550%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">TestWrapper_And_Stats</span><span class="p">(</span> <span class="mi">1000</span><span class="p">,</span> <span class="mf">0.20</span> <span class="p">)</span>
@@ -13309,8 +13426,8 @@ avg= 625.5 62.550%
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Population Count:  1000
 %Infected: 20%
-[881, 879, 917, 924, 911, 900, 884, 890, 920, 945]
-avg= 905.1 90.510%
+[907, 876, 927, 939, 929, 855, 861, 888, 916, 940]
+avg= 903.8 90.380%
 </pre>
 </div>
 </div>
