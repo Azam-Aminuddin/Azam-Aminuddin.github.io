@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>index</title>
+<title>Bayes</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,7 +13077,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="argmin-and-argmax">argmin and argmax<a class="anchor-link" href="#argmin-and-argmax">&#182;</a></h1><p>Last Updated: 19th May 2020</p>
+<h1 id="Bayes">Bayes<a class="anchor-link" href="#Bayes">&#182;</a></h1><p>Last Updated: 19th May 2020.</p>
 
 </div>
 </div>
@@ -13096,55 +13096,45 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Dataset">The Dataset<a class="anchor-link" href="#The-Dataset">&#182;</a></h2><p>We will generate 100 datapoints with 3 properties.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span> <span class="mi">1234</span> <span class="p">)</span>
 
-<span class="n">Xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">Xs</span>
+<span class="c1"># The Domain</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span> <span class="n">N</span> <span class="p">))</span>
+<span class="c1">#X</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[2]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([47, 83, 38, 53, 76, 24, 15, 49, 23, 26])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="argmin">argmin<a class="anchor-link" href="#argmin">&#182;</a></h3>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span> <span class="n">Xs</span> <span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span> <span class="n">Xs</span> <span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The 2 other properties</span>
+<span class="n">CA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span> <span class="n">N</span><span class="p">,</span> <span class="mi">20</span> <span class="p">)</span>
+<span class="n">CB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span> <span class="n">N</span><span class="p">,</span> <span class="mi">20</span> <span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span> <span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Val&quot;</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Property_A&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span> <span class="n">CA</span> <span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Property_B&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span> <span class="n">CB</span> <span class="p">)</span>
+<span class="n">df</span>
 </pre></div>
 
     </div>
@@ -13161,9 +13151,101 @@ div#notebook {
 
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>(15, 6)</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Val</th>
+      <th>Property_A</th>
+      <th>Property_B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.191519</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.622109</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.437728</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.785359</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.779976</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>0.502560</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>0.536878</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>0.819202</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>0.057116</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>0.669422</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 3 columns</p>
+</div>
 </div>
 
 </div>
@@ -13177,7 +13259,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">Property_A</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">Property_B</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Property_A</span> <span class="o">&amp;</span> <span class="n">df</span><span class="o">.</span><span class="n">Property_B</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13196,7 +13278,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>15</pre>
+<pre>(18, 20, 5)</pre>
 </div>
 
 </div>
@@ -13208,7 +13290,45 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="argmax">argmax<a class="anchor-link" href="#argmax">&#182;</a></h3>
+<table>
+<thead><tr>
+<th>x</th>
+<th>B</th>
+<th>~B</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><strong>5</strong></td>
+<td>13</td>
+<td><strong>18</strong></td>
+</tr>
+<tr>
+<td>~A</td>
+<td>15</td>
+<td>67</td>
+<td>82</td>
+</tr>
+<tr>
+<td>Total</td>
+<td><strong>20</strong></td>
+<td>80</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Marginal-Probability">The Marginal Probability<a class="anchor-link" href="#The-Marginal-Probability">&#182;</a></h2><p>P(A), P(B)</p>
+<p>The probability for each dataquery regardless of the others.</p>
+
 </div>
 </div>
 </div>
@@ -13217,7 +13337,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span> <span class="n">Xs</span> <span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span> <span class="n">Xs</span> <span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PA</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Property_A</span><span class="p">]</span> <span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">PA</span>
 </pre></div>
 
     </div>
@@ -13236,7 +13357,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(83, 1)</pre>
+<pre>0.18</pre>
 </div>
 
 </div>
@@ -13250,7 +13371,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PB</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Property_B</span><span class="p">]</span> <span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">PB</span>
 </pre></div>
 
     </div>
@@ -13269,7 +13391,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>83</pre>
+<pre>0.2</pre>
 </div>
 
 </div>
@@ -13277,6 +13399,190 @@ div#notebook {
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Join-Probability">The Join Probability<a class="anchor-link" href="#The-Join-Probability">&#182;</a></h2><p>P(A $ \cap $  B )</p>
+<p>The probability of the two dataqueries occured together.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">Property_A</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Property_B</span><span class="p">)]</span> <span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.05</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PA</span> <span class="o">*</span> <span class="n">PB</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.036</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Conditional-Probability">The Conditional Probability<a class="anchor-link" href="#The-Conditional-Probability">&#182;</a></h2><p>P(A|B), P(B|A)</p>
+<p>The probability of a dataquery on condition that another function has occured.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Property_B</span><span class="p">]</span>
+<span class="n">PA_B</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="n">B</span><span class="o">.</span><span class="n">Property_A</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span> <span class="n">B</span> <span class="p">)</span>
+<span class="n">PA_B</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.25</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Property_A</span><span class="p">]</span>
+<span class="n">PB_A</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">A</span><span class="o">.</span><span class="n">Property_B</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span> <span class="n">A</span> <span class="p">)</span>
+<span class="n">PB_A</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.2777777777777778</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Takeaways">Takeaways<a class="anchor-link" href="#Takeaways">&#182;</a></h2><p>We can see:</p>
+<ul>
+<li>P(A|B) &gt; P(A)</li>
+<li>P(B|A) &gt; P(B)</li>
+<li>P(A|B) != P(B|A)</li>
+<li>P(A $ \cap $  B ) != P(A) * P(B)</li>
+<li><strong>Noted!</strong> In above example: P(A $ \cap $  B )&gt;0</li>
+</ul>
+<p>$\Large P(A|B) . P(B) = P(B|A) . P(A) $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="My-Comments:">My Comments:<a class="anchor-link" href="#My-Comments:">&#182;</a></h3><ul>
+<li>Bayes' Theorem is about leverage the provided information to improve probability of the query. </li>
+</ul>
+<h3 id="Interesting-Links:">Interesting Links:<a class="anchor-link" href="#Interesting-Links:">&#182;</a></h3><ul>
+<li><a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">https://en.wikipedia.org/wiki/Bayes%27_theorem</a></li>
+<li><a href="https://www.quantamagazine.org/statistician-proves-gaussian-correlation-inequality-20170328">https://www.quantamagazine.org/statistician-proves-gaussian-correlation-inequality-20170328</a></li>
+</ul>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
