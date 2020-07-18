@@ -13935,7 +13935,7 @@ We need a function to do combination to get N object from M objects. We will use
 <h2 id="Now,-the-real-question-is-E(7,7)">Now, the real question is E(7,7)<a class="anchor-link" href="#Now,-the-real-question-is-E(7,7)">&#182;</a></h2><p>Remember:</p>
 <ul>
 <li>Cell Count is 7x7 = 49</li>
-<li>Total instance count is $2^{49}$ = 562949953421312</li>
+<li>Total instance count is $2^{49}$ = 562949953421312 (~562.95 trillions)</li>
 </ul>
 
 </div>
@@ -14020,7 +14020,110 @@ We need a function to do combination to get N object from M objects. We will use
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Pending-Investigation">The Pending Investigation<a class="anchor-link" href="#The-Pending-Investigation">&#182;</a></h2><p>To avoid costly calculation in the <strong>Calculate_Area_Total_ByIndexes</strong>, can we spot some patterns from following?</p>
+<h2 id="The-Pending-Investigation">The Pending Investigation<a class="anchor-link" href="#The-Pending-Investigation">&#182;</a></h2><p>If we have to use similar way, here is magnitude of the computation:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">comb</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">49</span>
+<span class="n">denom</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">denom</span><span class="p">,</span> <span class="n">comb</span> <span class="p">)</span>
+
+<span class="k">while</span> <span class="n">num</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">denom</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">comb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">comb</span> <span class="o">*</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">comb</span><span class="o">&gt;</span><span class="mf">1e12</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span> <span class="n">denom</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="s2">&quot;~ </span><span class="si">{:f}</span><span class="s2"> trillions&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">comb</span><span class="o">/</span><span class="mf">1e12</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">comb</span><span class="o">&gt;</span><span class="mf">1e9</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span> <span class="n">denom</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="s2">&quot;~ </span><span class="si">{:f}</span><span class="s2"> billions&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">comb</span><span class="o">/</span><span class="mf">1e9</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span> <span class="n">denom</span><span class="p">,</span> <span class="n">comb</span> <span class="p">)</span>
+    
+    <span class="n">num</span> <span class="o">-=</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 1
+1 49
+2 1176
+3 18424
+4 211876
+5 1906884
+6 13983816
+7 85900584
+8 450978066
+9 2054455634 ~ 2.054456 billions
+10 8217822536 ~ 8.217823 billions
+11 29135916264 ~ 29.135916 billions
+12 92263734836 ~ 92.263735 billions
+13 262596783764 ~ 262.596784 billions
+14 675248872536 ~ 675.248873 billions
+15 1575580702584 ~ 1.575581 trillions
+16 3348108992991 ~ 3.348109 trillions
+17 6499270398159 ~ 6.499270 trillions
+18 11554258485616 ~ 11.554258 trillions
+19 18851684897584 ~ 18.851685 trillions
+20 28277527346376 ~ 28.277527 trillions
+21 39049918716424 ~ 39.049919 trillions
+22 49699896548176 ~ 49.699897 trillions
+23 58343356817424 ~ 58.343357 trillions
+24 63205303218876 ~ 63.205303 trillions
+25 63205303218876 ~ 63.205303 trillions
+26 58343356817424 ~ 58.343357 trillions
+27 49699896548176 ~ 49.699897 trillions
+28 39049918716424 ~ 39.049919 trillions
+29 28277527346376 ~ 28.277527 trillions
+30 18851684897584 ~ 18.851685 trillions
+31 11554258485616 ~ 11.554258 trillions
+32 6499270398159 ~ 6.499270 trillions
+33 3348108992991 ~ 3.348109 trillions
+34 1575580702584 ~ 1.575581 trillions
+35 675248872536 ~ 675.248873 billions
+36 262596783764 ~ 262.596784 billions
+37 92263734836 ~ 92.263735 billions
+38 29135916264 ~ 29.135916 billions
+39 8217822536 ~ 8.217823 billions
+40 2054455634 ~ 2.054456 billions
+41 450978066
+42 85900584
+43 13983816
+44 1906884
+45 211876
+46 18424
+47 1176
+48 49
+49 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To avoid costly calculation in the <strong>Calculate_Area_Total_ByIndexes</strong>, can we spot some patterns from following?</p>
 <p><img src="Project-Euler-701-7x7-2.png" alt="Project-Euler-701-7x7-2.png"></p>
 
 </div>
