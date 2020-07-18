@@ -13505,27 +13505,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Another-representation-of-an-instance">Another representation of an instance<a class="anchor-link" href="#Another-representation-of-an-instance">&#182;</a></h2><p>Previously we use bits representation, e.g. on 7x7(=49) square cells</p>
-
-<pre><code>- 0 represented as (0 ... 49 times )
-- 1 represented as (0 ... 48 times and 1)
-- 2 represented as (0 ... 46 times and 1, 0)
-- 3 represented as (0 ... 46 times and 1, 1)
-
-</code></pre>
-<p>Another representation is using indexes, e.g on 7x7(=49) square cells</p>
-
-<pre><code>- 0 represented as () an empty tuple
-- 1 represented as (1)
-- 2 represented as (2)
-- 3 represented as (1,2)</code></pre>
+<h2 id="The-Support-Functions-(II)">The Support Functions (II)<a class="anchor-link" href="#The-Support-Functions-(II)">&#182;</a></h2><p>We will see how to use in the next examples.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Calculate_Area_ByIndexes</span><span class="p">(</span> <span class="n">indexes</span><span class="p">,</span> <span class="n">cell_count</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span> <span class="p">):</span>
@@ -13605,6 +13592,359 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Let's-Go-Back-to-the-examples-as-on-the-Project-Euler">Let's Go Back to the examples as on the Project Euler<a class="anchor-link" href="#Let's-Go-Back-to-the-examples-as-on-the-Project-Euler">&#182;</a></h2><p>For 2x2 square cells</p>
+<p><img src="Project-Euler-701-2x2.png" alt="Project-Euler-701-2x2.png"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Cell Count is 2x2 = 4<br>
+Total instance count is $2^4$ = 16</p>
+<p>Progressively we can do following:</p>
+<ul>
+<li>There is 1 possibility to get 0 cell, which is ()<ul>
+<li>Which have area of 0. </li>
+<li>This infomation is represented as { 0: 1 }</li>
+</ul>
+</li>
+<li>There are 4 possibilities to get 1 cell, which is (1,2,3,4)<ul>
+<li>Which have area of 1</li>
+<li>This infomation is represented as { 1: 4 }</li>
+</ul>
+</li>
+<li>There are 6 possibilities to get 2 cells, which is (12,13,14,23,24,34)<ul>
+<li>Which 2 have area of 1</li>
+<li>And 4 have area of 2</li>
+<li>This infomation is represented as { 2: 4, 1:2 }    </li>
+</ul>
+</li>
+<li>There are 4 possibilities to get 3 cells, which is (234,134,124,123)<ul>
+<li>Which have area of 3</li>
+<li>This infomation is represented as { 3: 4 }       </li>
+</ul>
+</li>
+<li>There is 1 possibility to get 4 cells, which is (1234)<ul>
+<li>Which have area of 4</li>
+<li>This infomation is represented as { 4: 1 }         </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">NN</span> <span class="o">=</span> <span class="n">N</span><span class="o">*</span><span class="n">N</span>
+<span class="n">dict_prevNodes</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="o">*</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">GetPrevNodes</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">dict_prevNodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ans</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">NN</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">Calculate_Area_Total_ByIndexes</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">NN</span> <span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 {0: 1}
+1 {1: 4}
+2 {2: 4, 1: 2}
+3 {3: 4}
+4 {4: 1}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate all area</span>
+<span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[52]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># And divide by the total instance count</span>
+<span class="mi">30</span> <span class="o">/</span> <span class="mi">16</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[53]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1.875</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="That's-the-answer-of-E(2,2)-=-1.875">That's the answer of E(2,2) = 1.875<a class="anchor-link" href="#That's-the-answer-of-E(2,2)-=-1.875">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For 4x4 square cells</p>
+<p><img src="Project-Euler-701-4x4.png" alt="Project-Euler-701-4x4.png"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Cell Count is 4x4 = 16<br>
+Total instance count is $2^{16}$ = 65536</p>
+<p>Progressively we will get 0,1,2,...16 cells from 16 cells.<br>
+We need a function to do combination to get N object from M objects. We will use <strong>itertools.combination</strong></p>
+<p>Let's take an example, take 3 cells from 16 cells, and we got (1, 6, 14). We need another representation to map (1,6,14) into instance of square cells.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Another-representation-of-an-instance">Another representation of an instance<a class="anchor-link" href="#Another-representation-of-an-instance">&#182;</a></h2><p>Previously we use bits representation, e.g. on 7x7(=49) square cells</p>
+
+<pre><code>- 0 represented as (0 ... 49 times )
+- 1 represented as (0 ... 48 times and 1)
+- 2 represented as (0 ... 47 times and 1, 0)
+- 3 represented as (0 ... 47 times and 1, 1)
+
+</code></pre>
+<p>Another representation is using indexes, e.g on 7x7(=49) square cells</p>
+
+<pre><code>- 0 represented as () an empty tuple
+- 1 represented as (1)
+- 2 represented as (2)
+- 3 represented as (1,2)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Let's-calculate-E(4,4)">Let's calculate E(4,4)<a class="anchor-link" href="#Let's-calculate-E(4,4)">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">NN</span> <span class="o">=</span> <span class="n">N</span><span class="o">*</span><span class="n">N</span>
+<span class="n">dict_prevNodes</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NN</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">GetPrevNodes</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">dict_prevNodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ans</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">NN</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">Calculate_Area_Total_ByIndexes</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">NN</span> <span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 {0: 1}
+1 {1: 16}
+2 {2: 24, 1: 96}
+3 {3: 52, 2: 232, 1: 276}
+4 {4: 113, 3: 408, 2: 894, 1: 405}
+5 {5: 244, 4: 692, 3: 1440, 2: 1688, 1: 304}
+6 {6: 496, 5: 1132, 4: 1874, 3: 2768, 2: 1624, 1: 114}
+7 {7: 912, 6: 1688, 5: 2260, 4: 2956, 3: 2872, 2: 732, 1: 20}
+8 {8: 1474, 7: 2164, 6: 2380, 5: 2560, 4: 2705, 3: 1466, 2: 119, 1: 2}
+9 {9: 2032, 8: 2272, 7: 2004, 6: 1836, 5: 1808, 4: 1180, 3: 308}
+10 {10: 2286, 9: 1844, 8: 1246, 7: 948, 6: 848, 5: 636, 4: 182, 3: 18}
+11 {11: 2000, 10: 1036, 9: 504, 8: 316, 7: 236, 6: 228, 5: 44, 4: 4}
+12 {12: 1236, 11: 352, 10: 106, 9: 56, 8: 32, 7: 24, 6: 14}
+13 {13: 488, 12: 60, 11: 8, 10: 4}
+14 {14: 116, 13: 4}
+15 {15: 16}
+16 {16: 1}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># But with count area</span>
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">NN</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">d_area</span> <span class="o">=</span> <span class="n">Calculate_Area_Total_ByIndexes</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">NN</span> <span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d_area</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">k</span><span class="o">*</span><span class="n">v</span>
+        
+<span class="n">total</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="n">NN</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[61]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5.7648773193359375</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### E(4,4) = 5.7648773193359375</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Now,-the-real-question-is-E(7,7)">Now, the real question is E(7,7)<a class="anchor-link" href="#Now,-the-real-question-is-E(7,7)">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[38]:</div>
@@ -13677,195 +14017,6 @@ div#notebook {
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Let's-Go-Back-to-examples-as-on-the-Project-Euler">Let's Go Back to examples as on the Project Euler<a class="anchor-link" href="#Let's-Go-Back-to-examples-as-on-the-Project-Euler">&#182;</a></h2><p>For 2x2 square cells</p>
-<p><img src="Project-Euler-701-2x2.png" alt="Project-Euler-701-2x2.png"></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Cell Count is 2x2 = 4<br>
-Total instance count is $2^4$ = 16</p>
-<p>Progressively we can do following:</p>
-<ul>
-<li>There is 1 possibility to get 0 cell, which is ()<ul>
-<li>Which have area of 0. </li>
-<li>This infomation is represented as { 0: 1 }</li>
-</ul>
-</li>
-<li>There are 4 possibilities to get 1 cell, which is (1,2,3,4)<ul>
-<li>Which have area of 1</li>
-<li>This infomation is represented as { 1: 4 }</li>
-</ul>
-</li>
-<li>There are 6 possibilities to get 2 cells, which is (12,13,14,23,24,34)<ul>
-<li>Which 2 have area of 1</li>
-<li>And 4 have area of 2</li>
-<li>This infomation is represented as { 2: 4, 1:2 }    </li>
-</ul>
-</li>
-<li>There are 4 possibilities to get 3 cells, which is (234,134,124,123)<ul>
-<li>Which have area of 3</li>
-<li>This infomation is represented as { 3: 4 }       </li>
-</ul>
-</li>
-<li>There is 1 possibility to get 4 cells, which is (1234)<ul>
-<li>Which have area of 4</li>
-<li>This infomation is represented as { 4: 1 }           </li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">dict_prevNodes</span> <span class="o">=</span> <span class="p">{}</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="o">*</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-    <span class="n">ans</span> <span class="o">=</span> <span class="n">GetPrevNodes</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">dict_prevNodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ans</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">Calculate_Area_Total_ByIndexes</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="mi">4</span> <span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>0 {0: 1}
-1 {1: 4}
-2 {2: 4, 1: 2}
-3 {3: 4}
-4 {4: 1}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate all area</span>
-<span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[46]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>30</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># And divide by the total instance count</span>
-<span class="mi">30</span> <span class="o">/</span> <span class="mi">16</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[47]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>1.875</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="That's-the-answer-of-E(2,2)-=-1.875">That's the answer of E(2,2) = 1.875<a class="anchor-link" href="#That's-the-answer-of-E(2,2)-=-1.875">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
 </div>
 </div>
 
