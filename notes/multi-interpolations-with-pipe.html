@@ -1,0 +1,55 @@
+## Multi-Interpolations Pipe (in Angular 13)
+
+### Intention:
+- To produce a string from predefined format/pattern by replacing some parameters inside.
+
+### Use case:
+- The format is defined with key "character_left_label"
+- On language English maps this key to "Maximum number of characters is {0}. {1} character(s) left"
+- Now, we have 2 parameters: {0}, {1}
+- Replace these parameters with values, EG: 4000, 123
+
+<img src="Angular-Multi-Interpolations.png" />
+
+### Implementation
+<pre>
+import { Pipe, PipeTransform } from '@angular/core';
+//
+// ...
+//
+@Pipe({
+    name: 'xLat',
+    pure: false
+})
+export class XLatPipe implements PipeTransform {
+    constructor() {}
+
+    transform(key : string, params = null ): string {
+        if( dict && dict.languages ) {
+            const currentDict = dict.languages[lang];
+
+            if(key in currentDict) { 
+                var ans = currentDict[key]; 
+                if( params ) {
+                    for( var paramKey in params ) {
+                        var paramValue = params[paramKey];
+                        ans = ans.replace( paramKey, paramValue );
+                    }
+                }
+                return ans;
+            }
+        }
+        return key;    
+    }
+}
+</pre>
+
+### How to use
+<pre>
+&lt;span&gt;{{'CharsLeftLB' | xLat : {"{0}":4000, "{1}":4000-stringModel.length } }}&lt;/span&gt;
+</pre>
+
+### Further Implementation
+- We could extend to 3rd interpolation etc, by adding parameter to the function transform. 
+
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.0"></script>
