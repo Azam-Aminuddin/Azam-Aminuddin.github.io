@@ -1,0 +1,70 @@
+## Don't Render until (all) required data loaded
+
+### Intention:
+- To make UI waiting, do not render, until all required data loaded
+
+### Implementation - Data Consumer - UI
+<pre>
+&lt;ng-container *ngIf="dataLoaded | async"&gt;
+    ...
+    ... Have to wait until data loaded ...
+    ...
+&lt;/ng-container&gt;
+</pre>
+
+### Implementation - Data Consumer
+<pre>
+@Component({
+  // ....
+})
+export class PageAssessment_Page implements OnInit, OnDestroy {
+  dataLoaded : Promise<boolean>;
+  
+  constructor( 
+    // ...
+    private databaseService : DatabaseService,
+    // ...
+    ) {
+     //
+     this.loadData(...);
+  }
+  
+  async loadData( ... ) {
+     //
+     // .... Data Loading here ...
+     // EG:
+     var scores : any = await this.databaseService.getObject( "score", this.assessmentId );
+
+     //
+     this.dataLoaded = Promise.resolve( true );
+  }
+}
+</pre>
+
+
+### Implementation - Data Producer
+<pre>
+@Injectable({ providedIn: 'root' })
+export class DatabaseService {
+  // ....
+  //
+  getObject( objectTypeName : string, objectKey : string | number ) {
+    var This = this;
+    const promise = new Promise( ( resolve, reject ) => {
+       //
+       // check cache, or local indexeddb here
+       // or make network request
+       // ...
+       // end with
+       resolve( ... contains data ... )
+       // or
+       reject( ... with error info ... )
+    } );
+    
+    return promise;
+  }
+}
+</pre>
+
+
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.0"></script>

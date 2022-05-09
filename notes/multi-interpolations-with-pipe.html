@@ -18,38 +18,53 @@ import { Pipe, PipeTransform } from '@angular/core';
 // ...
 //
 @Pipe({
-    name: 'xLat',
-    pure: false
+  name: 'xLat',
+  pure: false
 })
 export class XLatPipe implements PipeTransform {
-    constructor() {}
+  constructor() {}
 
-    transform(key : string, params = null ): string {
-        if( dict && dict.languages ) {
-            const currentDict = dict.languages[lang];
+  transform(key : string, params = null ): string {
+    if( dict && dict.languages ) {
+      const currentDict = dict.languages[lang];
 
-            if(key in currentDict) { 
-                var ans = currentDict[key]; 
-                if( params ) {
-                    for( var paramKey in params ) {
-                        var paramValue = params[paramKey];
-                        ans = ans.replace( paramKey, paramValue );
-                    }
-                }
-                return ans;
+      if(key in currentDict) { 
+        var ans = currentDict[key]; 
+          if( params ) {
+            for( var paramKey in params ) {
+              var paramValue = params[paramKey];
+              ans = ans.replace( paramKey, paramValue );
             }
-        }
-        return key;    
+          }
+          return ans;
+      }
     }
+    return key;    
+  }
 }
 </pre>
 
 ### How to use
 <pre>
-&lt;span&gt;{{'CharsLeftLB' | xLat : {"{0}":4000, "{1}":4000-stringModel.length } }}&lt;/span&gt;
+&lt;span&gt;{{'character_left_label' | xLat : {"{0}":4000, "{1}":4000-stringModel.length } }}&lt;/span&gt;
 </pre>
 
 ### Further Implementation
-- We could extend to 3rd interpolation etc, by adding parameter to the function transform. 
+- We could extend to 3rd interpolation etc, by adding parameter to the function transform. EG:
+
+<pre>
+  transform(key : string, params_for2nd = null, params_for3rd = null ): string {
+    //
+    // do replacements for 2nd
+    //
+    // then do replacements for 3rd
+    //
+  }
+</pre>
+
+#### How to use
+<pre>
+&lt;span&gt;{{'key' | xLat : { ---params_for2nd--- } : { ---params_for3rd--- } }}&lt;/span&gt;
+</pre>
 
 <script src="https://cdn.jsdelivr.net/npm/texme@1.2.0"></script>
